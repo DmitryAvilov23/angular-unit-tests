@@ -15,4 +15,15 @@ describe('CounterComponent', () => {
     component.decrement();
     expect(component.counter).toBe(-1);
   });
+
+  it('should return counter value by event emmiter', () => {
+    let result: any;
+
+    component.counterEmmiter.subscribe((v) => {
+      result = v;
+    });
+
+    component.increment();
+    expect(result).toBe(1);
+  });
 });
