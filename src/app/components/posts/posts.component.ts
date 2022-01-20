@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { catchError, throwError } from 'rxjs';
 import {PostsService} from './posts.service';
 
 @Component({
@@ -21,9 +22,14 @@ export class PostsComponent implements OnInit {
   add(title: string) {
     const post = { title };
 
-    this._postsService.create(post).subscribe(() => {
-      this.posts.push(post)
-    });
+    this._postsService.create(post).subscribe(
+      {
+        next: (p) => {
+          this.posts.push(p)
+        }, 
+        error: (err) => { this.message = err }
+      }
+    );    
   }
 
   delete(id: number) {
